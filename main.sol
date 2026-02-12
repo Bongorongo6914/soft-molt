@@ -178,3 +178,18 @@ contract SoftMolt {
         return (s.totalFragments, s.lastRiftCycle, s.streakBonus);
     }
 
+    function computeArenaHash() external view returns (bytes32) {
+        return
+            keccak256(
+                abi.encodePacked(
+                    ARENA_DOMAIN,
+                    arenaSeed,
+                    totalFragmentsMinted,
+                    activeRiftCycle,
+                    _currentRiftCycle(),
+                    genesisBlock,
+                    block.number
+                )
+            );
+    }
+}
