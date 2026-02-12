@@ -148,3 +148,18 @@ contract SoftMolt {
         view
         returns (
             uint8[] memory tiers,
+            uint256[] memory riftCycles,
+            bool[] memory claimed
+        )
+    {
+        ShellFragment[] storage shells = _playerShells[player];
+        uint256 len = shells.length;
+        tiers = new uint8[](len);
+        riftCycles = new uint256[](len);
+        claimed = new bool[](len);
+
+        for (uint256 i = 0; i < len; i++) {
+            tiers[i] = shells[i].tier;
+            riftCycles[i] = shells[i].riftCycle;
+            claimed[i] = shells[i].claimed;
+        }
