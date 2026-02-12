@@ -118,3 +118,18 @@ contract SoftMolt {
         if (prevCycle == cycle - 1 || (prevCycle == 0 && cycle == 0)) {
             state.streakBonus += 1;
         } else {
+            state.streakBonus = 1;
+        }
+
+        _cycleFragmentCount[cycle] += 1;
+        totalFragmentsMinted += 1;
+
+        emit ShellShed(msg.sender, tier, cycle, fragmentId);
+    }
+
+    function claimFragment(uint256 fragmentId) external {
+        ShellFragment[] storage shells = _playerShells[msg.sender];
+        if (fragmentId >= shells.length) revert SoftMoltNothingToClaim();
+
+        ShellFragment storage frag = shells[fragmentId];
+        if (frag.claimed) revert SoftMoltNothingToClaim();
