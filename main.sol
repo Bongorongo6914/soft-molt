@@ -13,3 +13,18 @@ contract SoftMolt {
 
     struct ShellFragment {
         uint8 tier;
+        uint256 mintedAt;
+        uint256 riftCycle;
+        bool claimed;
+    }
+
+    struct PlayerState {
+        uint256 totalFragments;
+        uint256 lastRiftCycle;
+        uint256 streakBonus;
+    }
+
+    mapping(address => ShellFragment[]) private _playerShells;
+    mapping(address => PlayerState) private _playerState;
+    mapping(uint256 => uint256) private _cycleFragmentCount;
+    uint256 public activeRiftCycle;
