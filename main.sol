@@ -73,3 +73,18 @@ contract SoftMolt {
         activeRiftCycle = 0;
     }
 
+    function _currentRiftCycle() internal view returns (uint256) {
+        return (block.number - genesisBlock) / riftDuration;
+    }
+
+    function _advanceRift() internal {
+        uint256 cycle = _currentRiftCycle();
+        if (cycle > activeRiftCycle) {
+            uint256 prev = activeRiftCycle;
+            activeRiftCycle = cycle;
+            emit RiftAdvanced(prev, cycle);
+        }
+    }
+
+    function shedShell(uint8 tier) external {
+        if (tier == 0 || tier > 4) revert SoftMoltInvalidTier();
