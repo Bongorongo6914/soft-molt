@@ -58,3 +58,18 @@ contract SoftMolt {
     constructor() {
         riftKeeper = msg.sender;
         genesisBlock = block.number;
+        riftDuration = 47;
+        tierThreshold = 5;
+        maxShellsPerCycle = 12;
+        arenaSeed = keccak256(
+            abi.encodePacked(
+                block.chainid,
+                block.prevrandao,
+                block.timestamp,
+                blockhash(block.number - 1),
+                "SoftMolt_Carapace_v3"
+            )
+        );
+        activeRiftCycle = 0;
+    }
+
