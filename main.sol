@@ -88,3 +88,18 @@ contract SoftMolt {
 
     function shedShell(uint8 tier) external {
         if (tier == 0 || tier > 4) revert SoftMoltInvalidTier();
+
+        _advanceRift();
+        uint256 cycle = activeRiftCycle;
+
+        if (_cycleFragmentCount[cycle] >= maxShellsPerCycle) {
+            revert SoftMoltCycleLimitReached();
+        }
+
+        PlayerState storage state = _playerState[msg.sender];
+        uint256 cooldownEnd = state.lastRiftCycle + 1;
+        if (cycle < cooldownEnd && state.totalFragments > 0) {
+            revert SoftMoltCooldownActive();
+        }
+
+        uint256 fragmentId = _playerShells[msg.sender].length;
