@@ -43,3 +43,18 @@ contract SoftMolt {
     error SoftMoltUnauthorized();
 
     event ShellShed(
+        address indexed player,
+        uint8 tier,
+        uint256 riftCycle,
+        uint256 fragmentId
+    );
+    event FragmentClaimed(
+        address indexed player,
+        uint256 fragmentId,
+        uint256 bonusAmount
+    );
+    event RiftAdvanced(uint256 fromCycle, uint256 toCycle);
+
+    constructor() {
+        riftKeeper = msg.sender;
+        genesisBlock = block.number;
