@@ -103,3 +103,18 @@ contract SoftMolt {
         }
 
         uint256 fragmentId = _playerShells[msg.sender].length;
+        _playerShells[msg.sender].push(
+            ShellFragment({
+                tier: tier,
+                mintedAt: block.number,
+                riftCycle: cycle,
+                claimed: false
+            })
+        );
+
+        state.totalFragments += 1;
+        uint256 prevCycle = state.lastRiftCycle;
+        state.lastRiftCycle = cycle;
+        if (prevCycle == cycle - 1 || (prevCycle == 0 && cycle == 0)) {
+            state.streakBonus += 1;
+        } else {
