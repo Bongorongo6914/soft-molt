@@ -133,3 +133,18 @@ contract SoftMolt {
 
         ShellFragment storage frag = shells[fragmentId];
         if (frag.claimed) revert SoftMoltNothingToClaim();
+
+        frag.claimed = true;
+
+        uint256 base = uint256(frag.tier) * 1e15;
+        uint256 streak = _playerState[msg.sender].streakBonus;
+        uint256 bonus = base + (streak * 2e14);
+
+        emit FragmentClaimed(msg.sender, fragmentId, bonus);
+    }
+
+    function getPlayerShells(address player)
+        external
+        view
+        returns (
+            uint8[] memory tiers,
