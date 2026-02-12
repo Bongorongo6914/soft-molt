@@ -163,3 +163,18 @@ contract SoftMolt {
             riftCycles[i] = shells[i].riftCycle;
             claimed[i] = shells[i].claimed;
         }
+    }
+
+    function getPlayerState(address player)
+        external
+        view
+        returns (
+            uint256 totalFragments,
+            uint256 lastRiftCycle,
+            uint256 streakBonus
+        )
+    {
+        PlayerState storage s = _playerState[player];
+        return (s.totalFragments, s.lastRiftCycle, s.streakBonus);
+    }
+
